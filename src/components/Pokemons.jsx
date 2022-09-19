@@ -1,5 +1,5 @@
-import { Layout, Row, Col, Typography, Spin, Progress } from 'antd'
-import React, { useContext } from 'react'
+import { Layout, Row, Col, Typography, Spin, Progress, Pagination } from 'antd'
+import React, { useContext, useEffect, useState } from 'react'
 import { PokeContext } from '../context/pokemonContext'
 import { LoadingOutlined } from '@ant-design/icons';
 import { colorFilter } from '../functions/color';
@@ -25,8 +25,8 @@ const Pokemon = ({ data }) => {
                            fontSize:'11px', padding: '3px 10px',borderRadius:'50px',color:'black', fontWeight:'bold', margin:'0 5px'
                         }
                         // console.log(type)
-                        return <Text style={colorFilter(typeStyle, type.name )} ket={index}>{ type.name }</Text>
-                     }) : 'Loading'
+                        return <Text style={colorFilter(typeStyle, type.name )} key={index}>{ type.name }</Text>
+                     }) : <Progress/>
                   }
                   
                </Col>
@@ -50,16 +50,42 @@ const antIcon = (
 
 const Pokemons = () => {
    const { pokemons } = useContext(PokeContext)
+   const [currentList, setCurrentList] = useState();
+   const [currentPage, setCurrentPage] = useState(1);
+   const [perPage, setPerPage] = useState(20);
   
+   useEffect(() => {
+      setList()
+   }, [pokemons, currentPage,perPage])
+
+
+   const setList = () => {
+      let indexofLast = currentPage * perPage
+      let indexofFirst = indexofLast - perPage
+      pokemons ? setCurrentList(pokemons.slice(indexofFirst, indexofLast)) : console.log('')
+   }
+
+   const setPagination = value => {
+      setCurrentPage(value)
+   }
+   const setPageLimit = (current, size) => {
+      setPerPage(size)
+      // console.log(current, size)
+   }
+
    return (
       <Layout style={{padding: ' 1rem 4rem', height: 'calc(100vh - 64px)', overflowX: 'scroll', backgroundColor:'white'}}>
          <Row gutter={14}>
             {
-               pokemons ? pokemons.map((pokemon, index) => {
+               currentList ? currentList.map((pokemon, index) => {
                   return <Pokemon data={pokemon} key={index}/>
                }) : <Spin indicator={antIcon} />
             }
          </Row>
+         <Row>
+            <Pagination defaultCurrent={currentPage} pageSize={perPage} total={1000} onChange={setPagination} onShowSizeChange={setPageLimit}/>
+         </Row>
+
       </Layout>
    )
 }

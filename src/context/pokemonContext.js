@@ -4,12 +4,14 @@ import { createContext, useEffect, useState } from "react";
 const PokeContext = createContext();
 
 const PokeProvider = (props) => {
-   const [URL, setURL] = useState("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
+   const [URL, setURL] = useState("https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0")
    const [pokemons, setPokemons] = useState([]);
+   const [searchInput, setSearchInput] = useState('');
    const [prev, setPrev] = useState();
    const [next, setNext] = useState();
 
    const fetchData = async() => {
+      setPokemons([])
       const { data } = await axios.get(URL)
       if(data.next){
          setNext(data.next)
@@ -29,12 +31,11 @@ const PokeProvider = (props) => {
             return state ? state = [...state, data] : ''
          })
       })
-      console.log(pokemons)
    }
 
    useEffect(() => {
       fetchData()
-   }, [URL])
+   }, [])
 
 
    const HandleNext = () => {
@@ -50,9 +51,12 @@ const PokeProvider = (props) => {
       }
    }
 
+   const handleSearch = (e) => {
+      setSearchInput(e.target.value)
+   }
 
 
-   const value = { pokemons, setPokemons, HandleNext, HandlePrev}
+   const value = { pokemons : pokemons.filter(pokemon => pokemon.name.includes(searchInput)), setPokemons, HandleNext, HandlePrev, handleSearch}
    return <PokeContext.Provider value={value}  {...props}/>
    
 }
