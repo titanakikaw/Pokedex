@@ -1,6 +1,7 @@
 import { Layout, Typography, Input, Menu } from 'antd';
 import React, { useContext, useState } from 'react'
 import { PokeContext } from '../context/pokemonContext';
+import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 const { Title, Text } = Typography;
@@ -11,7 +12,9 @@ const Navbar = () => {
    return (
       <Header style={{backgroundColor:'#f74a4a', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
          <div className="logo">
-            <Title style={{padding : '10px 1rem', color:'white', margin:'0px'}}>Pokédex</Title>
+            <Link to='/'>
+               <Title style={{padding : '10px 1rem', color:'white', margin:'0px'}}>Pokédex</Title>
+            </Link>
          </div>
          <Menu style={{backgroundColor:'transparent', border:'0',height: 'fit-content'}}>
             <Menu.Item style={{backgroundColor:'transparent', height:'inherit'}}>

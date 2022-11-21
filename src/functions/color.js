@@ -3,15 +3,12 @@ export const colorFilter = ( style ,type) => {
 
    switch (type) {
       case 'normal':
-   
          style.background =  "linear-gradient(90deg, #f3f3f3 0%,  grey 100%)" 
          break;
       case 'fighting':
-       
          style.background =  "linear-gradient(90deg, #ed7794 0%, rgb(235, 73, 113) 100%)" 
          break;
       case 'flying':
-        
          style.background =  "linear-gradient(90deg, #8da0c7 0%,  rgb(116, 143, 201) 100%)" 
          break;
       case 'poison':

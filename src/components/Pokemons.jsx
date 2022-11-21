@@ -24,7 +24,6 @@ const Pokemon = ({ data }) => {
                         let typeStyle = {
                            fontSize:'11px', padding: '3px 10px',borderRadius:'50px',color:'black', fontWeight:'bold', margin:'0 5px'
                         }
-                        // console.log(type)
                         return <Text style={colorFilter(typeStyle, type.name )} key={index}>{ type.name }</Text>
                      }) : <Progress/>
                   }

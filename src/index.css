@@ -17,3 +17,6 @@ body {
   background-repeat: no-repeat!important;
   background-position: -15px -40px!important;
 }
+.ant-progress-bg{
+  height: 15px!important;
+}
