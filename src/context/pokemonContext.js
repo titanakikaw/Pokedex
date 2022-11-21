@@ -6,19 +6,25 @@ const PokeContext = createContext();
 const PokeProvider = (props) => {
    const [URL, setURL] = useState("https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0")
    const [pokemons, setPokemons] = useState([]);
+   const [pokemon, setPokemon] = useState([]);
    const [searchInput, setSearchInput] = useState('');
-   const [prev, setPrev] = useState();
-   const [next, setNext] = useState();
+
+   useEffect(() => {
+      fetchData()
+   }, [])
+
+   const fetchPokemon = async(id) => {
+      const data = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      if(data)
+      {
+         setPokemon(data)
+      }
+      console.log(data)
+   }
 
    const fetchData = async() => {
       setPokemons([])
       const { data } = await axios.get(URL)
-      if(data.next){
-         setNext(data.next)
-      }
-      if(data.previous){
-         setPrev(data.previous)
-      }
       if(data){
          fetchDetails(data.results)
       }
@@ -33,30 +39,12 @@ const PokeProvider = (props) => {
       })
    }
 
-   useEffect(() => {
-      fetchData()
-   }, [])
-
-
-   const HandleNext = () => {
-      if(next){
-         setURL(next)
-      }
-      
-   }
-
-   const HandlePrev = () => {
-      if(prev){
-         setURL(prev)
-      }
-   }
-
    const handleSearch = (e) => {
       setSearchInput(e.target.value)
    }
 
 
-   const value = { pokemons : pokemons.filter(pokemon => pokemon.name.includes(searchInput)), setPokemons, HandleNext, HandlePrev, handleSearch}
+   const value = { pokemon, pokemons : pokemons.filter(pokemon => pokemon.name.includes(searchInput)), setPokemons, handleSearch, fetchPokemon }
    return <PokeContext.Provider value={value}  {...props}/>
    
 }
