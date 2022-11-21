@@ -24,7 +24,7 @@ const Pokemon = () => {
    let { stats } = pokemon ? pokemon : '';
    let { types } = pokemon ? pokemon : '';
 
-
+   console.log(pokemon)
 
    let style = {
       padding: ' 1rem 4rem',
@@ -56,7 +56,7 @@ const Pokemon = () => {
                xs={24}
                md={12}
             >
-               <img src={ pokemon ? pokemon.sprites.other.dream_world.front_default : ''} 
+               <img src={ pokemon ? pokemon.sprites.other.dream_world.front_default ? pokemon.sprites.other.dream_world.front_default : pokemon.sprites.front_default : ''} 
                   style={{
                      width:'100%'
                   }}
